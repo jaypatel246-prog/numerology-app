@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerology Calculator - Discover Your Numbers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-number {
+            font-size: 3em;
+            color: #667eea;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .result-meaning {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .info-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .info-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .number-meanings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .meaning-card {
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .meaning-card h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ Numerology Calculator ✨</h1>
+            <p class="subtitle">Discover the hidden meanings in your numbers</p>
+        </header>
+        
+        <div class="calculator-grid">
+            <!-- Life Path Number -->
+            <div class="card">
+                <h2>🌟 Life Path Number</h2>
+                <div class="input-group">
+                    <label for="birthdate">Birth Date:</label>
+                    <input type="date" id="birthdate" max="2025-12-31">
+                </div>
+                <button onclick="calculateLifePath()">Calculate Life Path</button>
+                <div id="lifePathResult" class="result"></div>
+            </div>
+            
+            <!-- Destiny Number -->
+            <div class="card">
+                <h2>🎯 Destiny Number</h2>
+                <div class="input-group">
+                    <label for="fullname">Full Name:</label>
+                    <input type="text" id="fullname" placeholder="Enter your full name">
+                </div>
+                <button onclick="calculateDestiny()">Calculate Destiny</button>
+                <div id="destinyResult" class="result"></div>
+            </div>
+            
+            <!-- Soul Urge Number -->
+            <div class="card">
+                <h2>💫 Soul Urge Number</h2>
+                <div class="input-group">
+                    <label for="soulname">Full Name:</label>
+                    <input type="text" id="soulname" placeholder="Enter your full name">
+                </div>
+                <button onclick="calculateSoulUrge()">Calculate Soul Urge</button>
+                <div id="soulUrgeResult" class="result"></div>
+            </div>
+            
+            <!-- Personality Number -->
+            <div class="card">
+                <h2>🎭 Personality Number</h2>
+                <div class="input-group">
+                    <label for="personalityname">Full Name:</label>
+                    <input type="text" id="personalityname" placeholder="Enter your full name">
+                </div>
+                <button onclick="calculatePersonality()">Calculate Personality</button>
+                <div id="personalityResult" class="result"></div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2>📚 Number Meanings Guide</h2>
+            <div class="number-meanings">
+                <div class="meaning-card">
+                    <h3>Number 1</h3>
+                    <p>Leadership, independence, innovation, ambition</p>
+                </div>
+                <div class="meaning-card">
+                    <h3>Number 2</h3>
+                    <p>Cooperation, diplomacy, balance, harmony</p>
+                </div>
+                <div class="meaning-card">
+                    <h3>Number 3</h3>
+                    <p>Creativity, expression, joy, communication</p>
+                </div>
+                <div class="meaning-card">
+                    <h3>Number 4</h3>
+                    <p>Stability, practicality, hard work, foundation</p>
+                </div>
+                <div class="meaning-card">
+                    <h3>Number 5</h3>
+                    <p>Freedom, adventure, change, versatility</p>
+                </div>
+                <div class="meaning-card">
+                    <h3>Number 6</h3>
+                    <p>Responsibility, nurturing, family, service</p>
+                </div>
+                <div class="meaning-card">
+                    <h3>Number 7</h3>
+                    <p>Spirituality, analysis, wisdom, introspection</p>
+                </div>
+                <div class="meaning-card">
+                    <h3>Number 8</h3>
+                    <p>Power, success, abundance, achievement</p>
+                </div>
+                <div class="meaning-card">
+                    <h3>Number 9</h3>
+                    <p>Compassion, humanitarianism, completion</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Created with ❤️ by Bhindi | Your Personal Numerology Guide</p>
+        </footer>
+    </div>
+    
+    <script>
+        const numberMeanings = {
+            1: "You are a natural leader with strong independence and ambition. You pioneer new paths and inspire others with your innovative ideas.",
+            2: "You are a peacemaker with exceptional diplomatic skills. You thrive in partnerships and bring harmony to relationships.",
+            3: "You are creative and expressive with a gift for communication. Joy and optimism radiate from you naturally.",
+            4: "You are practical and reliable, building strong foundations. Hard work and stability are your strengths.",
+            5: "You are adventurous and freedom-loving. Change excites you and versatility is your superpower.",
+            6: "You are nurturing and responsible with a strong sense of family. Service to others brings you fulfillment.",
+            7: "You are spiritual and analytical with deep wisdom. Introspection and seeking truth define your path.",
+            8: "You are powerful and success-oriented. Abundance and achievement come naturally to you.",
+            9: "You are compassionate and humanitarian. Completing cycles and helping humanity is your calling."
+        };
+        
+        function reduceToSingleDigit(num) {
+            while (num > 9 && num !== 11 && num !== 22 && num !== 33) {
+                num = num.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            }
+            return num;
+        }
+        
+        function calculateLifePath() {
+            const birthdate = document.getElementById('birthdate').value;
+            if (!birthdate) {
+                alert('Please enter your birth date');
+                return;
+            }
+            
+            const date = new Date(birthdate);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            
+            const sum = reduceToSingleDigit(day) + reduceToSingleDigit(month) + reduceToSingleDigit(year);
+            const lifePathNumber = reduceToSingleDigit(sum);
+            
+            displayResult('lifePathResult', lifePathNumber, 'Life Path');
+        }
+        
+        function getLetterValue(letter) {
+            const values = {
+                'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9,
+                'J': 1, 'K': 2, 'L': 3, 'M': 4, 'N': 5, 'O': 6, 'P': 7, 'Q': 8, 'R': 9,
+                'S': 1, 'T': 2, 'U': 3, 'V': 4, 'W': 5, 'X': 6, 'Y': 7, 'Z': 8
+            };
+            return values[letter.toUpperCase()] || 0;
+        }
+        
+        function calculateDestiny() {
+            const name = document.getElementById('fullname').value;
+            if (!name) {
+                alert('Please enter your full name');
+                return;
+            }
+            
+            let sum = 0;
+            for (let char of name.replace(/[^a-zA-Z]/g, '')) {
+                sum += getLetterValue(char);
+            }
+            
+            const destinyNumber = reduceToSingleDigit(sum);
+            displayResult('destinyResult', destinyNumber, 'Destiny');
+        }
+        
+        function calculateSoulUrge() {
+            const name = document.getElementById('soulname').value;
+            if (!name) {
+                alert('Please enter your full name');
+                return;
+            }
+            
+            const vowels = 'AEIOU';
+            let sum = 0;
+            for (let char of name.toUpperCase().replace(/[^a-zA-Z]/g, '')) {
+                if (vowels.includes(char)) {
+                    sum += getLetterValue(char);
+                }
+            }
+            
+            const soulUrgeNumber = reduceToSingleDigit(sum);
+            displayResult('soulUrgeResult', soulUrgeNumber, 'Soul Urge');
+        }
+        
+        function calculatePersonality() {
+            const name = document.getElementById('personalityname').value;
+            if (!name) {
+                alert('Please enter your full name');
+                return;
+            }
+            
+            const vowels = 'AEIOU';
+            let sum = 0;
+            for (let char of name.toUpperCase().replace(/[^a-zA-Z]/g, '')) {
+                if (!vowels.includes(char)) {
+                    sum += getLetterValue(char);
+                }
+            }
+            
+            const personalityNumber = reduceToSingleDigit(sum);
+            displayResult('personalityResult', personalityNumber, 'Personality');
+        }
+        
+        function displayResult(elementId, number, type) {
+            const resultDiv = document.getElementById(elementId);
+            resultDiv.innerHTML = `
+                <div class="result-number">${number}</div>
+                <div class="result-meaning">
+                    <strong>Your ${type} Number is ${number}</strong><br><br>
+                    ${numberMeanings[number]}
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+    </script>
+</body>
+</html>
