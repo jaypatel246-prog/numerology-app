@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Numerology Calculator - Discover Your Numbers</title>
+    <title>Advanced Numerology Calculator - Complete Analysis</title>
+    <meta name="description" content="Professional numerology calculator with compatibility, business name analysis, lucky numbers, and complete readings">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTnVtZXJvbG9neSBDYWxjdWxhdG9yIiwic2hvcnRfbmFtZSI6Ik51bWVyb2xvZ3kiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzY2N2VlYSIsInRoZW1lX2NvbG9yIjoiIzY2N2VlYSJ9">
     <style>
         * {
             margin: 0;
@@ -19,7 +21,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
@@ -30,7 +32,7 @@
         }
         
         h1 {
-            font-size: 2.5em;
+            font-size: 2.8em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
@@ -40,9 +42,43 @@
             opacity: 0.9;
         }
         
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn:hover, .tab-btn.active {
+            background: white;
+            color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
         .calculator-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -76,7 +112,7 @@
             font-weight: 600;
         }
         
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
@@ -85,7 +121,7 @@
             transition: border-color 0.3s;
         }
         
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -109,7 +145,7 @@
         
         .result {
             margin-top: 20px;
-            padding: 15px;
+            padding: 20px;
             background: #f5f5f5;
             border-radius: 8px;
             display: none;
@@ -136,6 +172,39 @@
         .result-meaning {
             color: #555;
             line-height: 1.6;
+        }
+        
+        .compatibility-result {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .person-info {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .compatibility-score {
+            text-align: center;
+        }
+        
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0 auto;
         }
         
         .info-section {
@@ -170,6 +239,50 @@
             margin-bottom: 8px;
         }
         
+        .lucky-numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .lucky-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .save-btn {
+            background: #28a745;
+            margin-top: 10px;
+        }
+        
+        .saved-readings {
+            margin-top: 20px;
+        }
+        
+        .saved-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            padding: 8px 16px;
+            width: auto;
+        }
+        
         footer {
             text-align: center;
             color: white;
@@ -177,126 +290,250 @@
             padding: 20px;
             opacity: 0.9;
         }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .compatibility-result {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>✨ Numerology Calculator ✨</h1>
-            <p class="subtitle">Discover the hidden meanings in your numbers</p>
+            <h1>✨ Advanced Numerology Calculator ✨</h1>
+            <p class="subtitle">Complete Numerology Analysis & Insights</p>
         </header>
         
-        <div class="calculator-grid">
-            <!-- Life Path Number -->
-            <div class="card">
-                <h2>🌟 Life Path Number</h2>
-                <div class="input-group">
-                    <label for="birthdate">Birth Date:</label>
-                    <input type="date" id="birthdate" max="2025-12-31">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('basic')">Basic Calculations</button>
+            <button class="tab-btn" onclick="switchTab('compatibility')">Compatibility</button>
+            <button class="tab-btn" onclick="switchTab('business')">Business Name</button>
+            <button class="tab-btn" onclick="switchTab('lucky')">Lucky Numbers</button>
+            <button class="tab-btn" onclick="switchTab('saved')">Saved Readings</button>
+        </div>
+        
+        <!-- Basic Calculations Tab -->
+        <div id="basic" class="tab-content active">
+            <div class="calculator-grid">
+                <div class="card">
+                    <h2>🌟 Life Path Number</h2>
+                    <div class="input-group">
+                        <label for="birthdate">Birth Date:</label>
+                        <input type="date" id="birthdate" max="2025-12-31">
+                    </div>
+                    <button onclick="calculateLifePath()">Calculate Life Path</button>
+                    <button class="save-btn" onclick="saveReading('lifePath')">Save Reading</button>
+                    <div id="lifePathResult" class="result"></div>
                 </div>
-                <button onclick="calculateLifePath()">Calculate Life Path</button>
-                <div id="lifePathResult" class="result"></div>
+                
+                <div class="card">
+                    <h2>🎯 Destiny Number</h2>
+                    <div class="input-group">
+                        <label for="fullname">Full Name:</label>
+                        <input type="text" id="fullname" placeholder="Enter your full name">
+                    </div>
+                    <button onclick="calculateDestiny()">Calculate Destiny</button>
+                    <button class="save-btn" onclick="saveReading('destiny')">Save Reading</button>
+                    <div id="destinyResult" class="result"></div>
+                </div>
+                
+                <div class="card">
+                    <h2>💫 Soul Urge Number</h2>
+                    <div class="input-group">
+                        <label for="soulname">Full Name:</label>
+                        <input type="text" id="soulname" placeholder="Enter your full name">
+                    </div>
+                    <button onclick="calculateSoulUrge()">Calculate Soul Urge</button>
+                    <button class="save-btn" onclick="saveReading('soulUrge')">Save Reading</button>
+                    <div id="soulUrgeResult" class="result"></div>
+                </div>
+                
+                <div class="card">
+                    <h2>🎭 Personality Number</h2>
+                    <div class="input-group">
+                        <label for="personalityname">Full Name:</label>
+                        <input type="text" id="personalityname" placeholder="Enter your full name">
+                    </div>
+                    <button onclick="calculatePersonality()">Calculate Personality</button>
+                    <button class="save-btn" onclick="saveReading('personality')">Save Reading</button>
+                    <div id="personalityResult" class="result"></div>
+                </div>
             </div>
-            
-            <!-- Destiny Number -->
+        </div>
+        
+        <!-- Compatibility Tab -->
+        <div id="compatibility" class="tab-content">
             <div class="card">
-                <h2>🎯 Destiny Number</h2>
-                <div class="input-group">
-                    <label for="fullname">Full Name:</label>
-                    <input type="text" id="fullname" placeholder="Enter your full name">
+                <h2>💕 Relationship Compatibility</h2>
+                <div class="calculator-grid">
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 15px;">Person 1</h3>
+                        <div class="input-group">
+                            <label for="person1name">Name:</label>
+                            <input type="text" id="person1name" placeholder="Enter name">
+                        </div>
+                        <div class="input-group">
+                            <label for="person1date">Birth Date:</label>
+                            <input type="date" id="person1date" max="2025-12-31">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 15px;">Person 2</h3>
+                        <div class="input-group">
+                            <label for="person2name">Name:</label>
+                            <input type="text" id="person2name" placeholder="Enter name">
+                        </div>
+                        <div class="input-group">
+                            <label for="person2date">Birth Date:</label>
+                            <input type="date" id="person2date" max="2025-12-31">
+                        </div>
+                    </div>
                 </div>
-                <button onclick="calculateDestiny()">Calculate Destiny</button>
-                <div id="destinyResult" class="result"></div>
+                <button onclick="calculateCompatibility()">Calculate Compatibility</button>
+                <div id="compatibilityResult" class="result"></div>
             </div>
-            
-            <!-- Soul Urge Number -->
+        </div>
+        
+        <!-- Business Name Tab -->
+        <div id="business" class="tab-content">
             <div class="card">
-                <h2>💫 Soul Urge Number</h2>
+                <h2>💼 Business Name Analysis</h2>
                 <div class="input-group">
-                    <label for="soulname">Full Name:</label>
-                    <input type="text" id="soulname" placeholder="Enter your full name">
+                    <label for="businessname">Business Name:</label>
+                    <input type="text" id="businessname" placeholder="Enter business name">
                 </div>
-                <button onclick="calculateSoulUrge()">Calculate Soul Urge</button>
-                <div id="soulUrgeResult" class="result"></div>
+                <button onclick="calculateBusinessName()">Analyze Business Name</button>
+                <div id="businessResult" class="result"></div>
             </div>
-            
-            <!-- Personality Number -->
+        </div>
+        
+        <!-- Lucky Numbers Tab -->
+        <div id="lucky" class="tab-content">
             <div class="card">
-                <h2>🎭 Personality Number</h2>
+                <h2>🍀 Your Lucky Numbers</h2>
                 <div class="input-group">
-                    <label for="personalityname">Full Name:</label>
-                    <input type="text" id="personalityname" placeholder="Enter your full name">
+                    <label for="luckyname">Full Name:</label>
+                    <input type="text" id="luckyname" placeholder="Enter your full name">
                 </div>
-                <button onclick="calculatePersonality()">Calculate Personality</button>
-                <div id="personalityResult" class="result"></div>
+                <div class="input-group">
+                    <label for="luckydate">Birth Date:</label>
+                    <input type="date" id="luckydate" max="2025-12-31">
+                </div>
+                <button onclick="calculateLuckyNumbers()">Generate Lucky Numbers</button>
+                <div id="luckyResult" class="result"></div>
+            </div>
+        </div>
+        
+        <!-- Saved Readings Tab -->
+        <div id="saved" class="tab-content">
+            <div class="card">
+                <h2>📚 Your Saved Readings</h2>
+                <div id="savedReadings" class="saved-readings"></div>
             </div>
         </div>
         
         <div class="info-section">
-            <h2>📚 Number Meanings Guide</h2>
+            <h2>📚 Complete Number Meanings Guide</h2>
             <div class="number-meanings">
                 <div class="meaning-card">
-                    <h3>Number 1</h3>
-                    <p>Leadership, independence, innovation, ambition</p>
+                    <h3>Number 1 - The Leader</h3>
+                    <p>Leadership, independence, innovation, ambition, pioneering spirit</p>
                 </div>
                 <div class="meaning-card">
-                    <h3>Number 2</h3>
-                    <p>Cooperation, diplomacy, balance, harmony</p>
+                    <h3>Number 2 - The Peacemaker</h3>
+                    <p>Cooperation, diplomacy, balance, harmony, partnership</p>
                 </div>
                 <div class="meaning-card">
-                    <h3>Number 3</h3>
-                    <p>Creativity, expression, joy, communication</p>
+                    <h3>Number 3 - The Creative</h3>
+                    <p>Creativity, expression, joy, communication, artistic talent</p>
                 </div>
                 <div class="meaning-card">
-                    <h3>Number 4</h3>
-                    <p>Stability, practicality, hard work, foundation</p>
+                    <h3>Number 4 - The Builder</h3>
+                    <p>Stability, practicality, hard work, foundation, discipline</p>
                 </div>
                 <div class="meaning-card">
-                    <h3>Number 5</h3>
-                    <p>Freedom, adventure, change, versatility</p>
+                    <h3>Number 5 - The Adventurer</h3>
+                    <p>Freedom, adventure, change, versatility, dynamic energy</p>
                 </div>
                 <div class="meaning-card">
-                    <h3>Number 6</h3>
-                    <p>Responsibility, nurturing, family, service</p>
+                    <h3>Number 6 - The Nurturer</h3>
+                    <p>Responsibility, nurturing, family, service, compassion</p>
                 </div>
                 <div class="meaning-card">
-                    <h3>Number 7</h3>
-                    <p>Spirituality, analysis, wisdom, introspection</p>
+                    <h3>Number 7 - The Seeker</h3>
+                    <p>Spirituality, analysis, wisdom, introspection, mysticism</p>
                 </div>
                 <div class="meaning-card">
-                    <h3>Number 8</h3>
-                    <p>Power, success, abundance, achievement</p>
+                    <h3>Number 8 - The Powerhouse</h3>
+                    <p>Power, success, abundance, achievement, material mastery</p>
                 </div>
                 <div class="meaning-card">
-                    <h3>Number 9</h3>
-                    <p>Compassion, humanitarianism, completion</p>
+                    <h3>Number 9 - The Humanitarian</h3>
+                    <p>Compassion, humanitarianism, completion, universal love</p>
                 </div>
             </div>
         </div>
         
         <footer>
-            <p>Created with ❤️ by Bhindi | Your Personal Numerology Guide</p>
+            <p>Created with ❤️ by Bhindi | Your Complete Numerology Guide</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">All readings saved locally in your browser</p>
         </footer>
     </div>
     
     <script>
+        let currentResults = {};
+        
         const numberMeanings = {
-            1: "You are a natural leader with strong independence and ambition. You pioneer new paths and inspire others with your innovative ideas.",
-            2: "You are a peacemaker with exceptional diplomatic skills. You thrive in partnerships and bring harmony to relationships.",
-            3: "You are creative and expressive with a gift for communication. Joy and optimism radiate from you naturally.",
-            4: "You are practical and reliable, building strong foundations. Hard work and stability are your strengths.",
-            5: "You are adventurous and freedom-loving. Change excites you and versatility is your superpower.",
-            6: "You are nurturing and responsible with a strong sense of family. Service to others brings you fulfillment.",
-            7: "You are spiritual and analytical with deep wisdom. Introspection and seeking truth define your path.",
-            8: "You are powerful and success-oriented. Abundance and achievement come naturally to you.",
-            9: "You are compassionate and humanitarian. Completing cycles and helping humanity is your calling."
+            1: "You are a natural leader with strong independence and ambition. You pioneer new paths and inspire others with your innovative ideas. Your determination and self-reliance make you a trailblazer.",
+            2: "You are a peacemaker with exceptional diplomatic skills. You thrive in partnerships and bring harmony to relationships. Your sensitivity and cooperation create balance wherever you go.",
+            3: "You are creative and expressive with a gift for communication. Joy and optimism radiate from you naturally. Your artistic talents and social charm make you magnetic.",
+            4: "You are practical and reliable, building strong foundations. Hard work and stability are your strengths. Your discipline and organization create lasting structures.",
+            5: "You are adventurous and freedom-loving. Change excites you and versatility is your superpower. Your dynamic energy and adaptability open endless possibilities.",
+            6: "You are nurturing and responsible with a strong sense of family. Service to others brings you fulfillment. Your compassion and care create safe havens.",
+            7: "You are spiritual and analytical with deep wisdom. Introspection and seeking truth define your path. Your mystical nature connects you to higher realms.",
+            8: "You are powerful and success-oriented. Abundance and achievement come naturally to you. Your business acumen and material mastery create prosperity.",
+            9: "You are compassionate and humanitarian. Completing cycles and helping humanity is your calling. Your universal love and selflessness inspire transformation."
         };
+        
+        const businessMeanings = {
+            1: "Excellent for startups, leadership brands, and innovative ventures. This number attracts pioneering energy and independent success.",
+            2: "Perfect for partnerships, consulting, and collaborative businesses. This number brings harmony and diplomatic success.",
+            3: "Ideal for creative industries, entertainment, and communication businesses. This number attracts artistic success and social engagement.",
+            4: "Great for construction, real estate, and traditional businesses. This number builds solid foundations and lasting success.",
+            5: "Perfect for travel, marketing, and dynamic industries. This number attracts change, versatility, and exciting opportunities.",
+            6: "Excellent for healthcare, hospitality, and service industries. This number brings nurturing energy and community trust.",
+            7: "Ideal for research, technology, and spiritual businesses. This number attracts wisdom and analytical success.",
+            8: "Perfect for finance, corporate, and ambitious ventures. This number brings material success and powerful growth.",
+            9: "Great for nonprofits, healing, and humanitarian businesses. This number attracts compassionate success and completion."
+        };
+        
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'saved') {
+                displaySavedReadings();
+            }
+        }
         
         function reduceToSingleDigit(num) {
             while (num > 9 && num !== 11 && num !== 22 && num !== 33) {
                 num = num.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
             }
             return num;
+        }
+        
+        function getLetterValue(letter) {
+            const values = {
+                'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9,
+                'J': 1, 'K': 2, 'L': 3, 'M': 4, 'N': 5, 'O': 6, 'P': 7, 'Q': 8, 'R': 9,
+                'S': 1, 'T': 2, 'U': 3, 'V': 4, 'W': 5, 'X': 6, 'Y': 7, 'Z': 8
+            };
+            return values[letter.toUpperCase()] || 0;
         }
         
         function calculateLifePath() {
@@ -314,16 +551,13 @@
             const sum = reduceToSingleDigit(day) + reduceToSingleDigit(month) + reduceToSingleDigit(year);
             const lifePathNumber = reduceToSingleDigit(sum);
             
-            displayResult('lifePathResult', lifePathNumber, 'Life Path');
-        }
-        
-        function getLetterValue(letter) {
-            const values = {
-                'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9,
-                'J': 1, 'K': 2, 'L': 3, 'M': 4, 'N': 5, 'O': 6, 'P': 7, 'Q': 8, 'R': 9,
-                'S': 1, 'T': 2, 'U': 3, 'V': 4, 'W': 5, 'X': 6, 'Y': 7, 'Z': 8
+            currentResults.lifePath = {
+                number: lifePathNumber,
+                type: 'Life Path',
+                date: birthdate
             };
-            return values[letter.toUpperCase()] || 0;
+            
+            displayResult('lifePathResult', lifePathNumber, 'Life Path');
         }
         
         function calculateDestiny() {
@@ -339,6 +573,13 @@
             }
             
             const destinyNumber = reduceToSingleDigit(sum);
+            
+            currentResults.destiny = {
+                number: destinyNumber,
+                type: 'Destiny',
+                name: name
+            };
+            
             displayResult('destinyResult', destinyNumber, 'Destiny');
         }
         
@@ -358,6 +599,13 @@
             }
             
             const soulUrgeNumber = reduceToSingleDigit(sum);
+            
+            currentResults.soulUrge = {
+                number: soulUrgeNumber,
+                type: 'Soul Urge',
+                name: name
+            };
+            
             displayResult('soulUrgeResult', soulUrgeNumber, 'Soul Urge');
         }
         
@@ -377,7 +625,140 @@
             }
             
             const personalityNumber = reduceToSingleDigit(sum);
+            
+            currentResults.personality = {
+                number: personalityNumber,
+                type: 'Personality',
+                name: name
+            };
+            
             displayResult('personalityResult', personalityNumber, 'Personality');
+        }
+        
+        function calculateCompatibility() {
+            const name1 = document.getElementById('person1name').value;
+            const date1 = document.getElementById('person1date').value;
+            const name2 = document.getElementById('person2name').value;
+            const date2 = document.getElementById('person2date').value;
+            
+            if (!name1 || !date1 || !name2 || !date2) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const d1 = new Date(date1);
+            const d2 = new Date(date2);
+            
+            const lp1 = reduceToSingleDigit(reduceToSingleDigit(d1.getDate()) + reduceToSingleDigit(d1.getMonth() + 1) + reduceToSingleDigit(d1.getFullYear()));
+            const lp2 = reduceToSingleDigit(reduceToSingleDigit(d2.getDate()) + reduceToSingleDigit(d2.getMonth() + 1) + reduceToSingleDigit(d2.getFullYear()));
+            
+            const compatibilityMatrix = {
+                '1-1': 85, '1-2': 70, '1-3': 90, '1-4': 60, '1-5': 95, '1-6': 75, '1-7': 65, '1-8': 80, '1-9': 70,
+                '2-2': 90, '2-3': 85, '2-4': 80, '2-5': 65, '2-6': 95, '2-7': 75, '2-8': 70, '2-9': 85,
+                '3-3': 80, '3-4': 60, '3-5': 90, '3-6': 85, '3-7': 70, '3-8': 75, '3-9': 80,
+                '4-4': 85, '4-5': 55, '4-6': 90, '4-7': 80, '4-8': 95, '4-9': 70,
+                '5-5': 75, '5-6': 65, '5-7': 80, '5-8': 70, '5-9': 85,
+                '6-6': 90, '6-7': 75, '6-8': 80, '6-9': 95,
+                '7-7': 85, '7-8': 70, '7-9': 80,
+                '8-8': 90, '8-9': 75,
+                '9-9': 85
+            };
+            
+            const key = lp1 <= lp2 ? `${lp1}-${lp2}` : `${lp2}-${lp1}`;
+            const score = compatibilityMatrix[key] || 70;
+            
+            const resultDiv = document.getElementById('compatibilityResult');
+            resultDiv.innerHTML = `
+                <div class="compatibility-result">
+                    <div class="person-info">
+                        <h3>${name1}</h3>
+                        <div class="result-number" style="font-size: 2em;">${lp1}</div>
+                        <p>Life Path Number</p>
+                    </div>
+                    <div class="compatibility-score">
+                        <div class="score-circle">${score}%</div>
+                        <p style="margin-top: 10px; font-weight: bold;">Compatibility</p>
+                    </div>
+                    <div class="person-info">
+                        <h3>${name2}</h3>
+                        <div class="result-number" style="font-size: 2em;">${lp2}</div>
+                        <p>Life Path Number</p>
+                    </div>
+                </div>
+                <div class="result-meaning" style="margin-top: 20px;">
+                    <strong>Compatibility Analysis:</strong><br><br>
+                    ${score >= 85 ? '💕 Excellent Match! You share deep understanding and natural harmony.' :
+                      score >= 70 ? '💖 Good Match! With effort and communication, this relationship can thrive.' :
+                      '💛 Challenging Match. Requires patience and understanding, but growth is possible.'}
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+        
+        function calculateBusinessName() {
+            const name = document.getElementById('businessname').value;
+            if (!name) {
+                alert('Please enter a business name');
+                return;
+            }
+            
+            let sum = 0;
+            for (let char of name.replace(/[^a-zA-Z]/g, '')) {
+                sum += getLetterValue(char);
+            }
+            
+            const businessNumber = reduceToSingleDigit(sum);
+            
+            const resultDiv = document.getElementById('businessResult');
+            resultDiv.innerHTML = `
+                <div class="result-number">${businessNumber}</div>
+                <div class="result-meaning">
+                    <strong>Business Name Number: ${businessNumber}</strong><br><br>
+                    ${businessMeanings[businessNumber]}<br><br>
+                    <strong>Energy:</strong> ${numberMeanings[businessNumber]}
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+        
+        function calculateLuckyNumbers() {
+            const name = document.getElementById('luckyname').value;
+            const date = document.getElementById('luckydate').value;
+            
+            if (!name || !date) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const birthDate = new Date(date);
+            const lifePath = reduceToSingleDigit(reduceToSingleDigit(birthDate.getDate()) + reduceToSingleDigit(birthDate.getMonth() + 1) + reduceToSingleDigit(birthDate.getFullYear()));
+            
+            let nameSum = 0;
+            for (let char of name.replace(/[^a-zA-Z]/g, '')) {
+                nameSum += getLetterValue(char);
+            }
+            const destiny = reduceToSingleDigit(nameSum);
+            
+            const luckyNums = [
+                lifePath,
+                destiny,
+                (lifePath + destiny) % 9 || 9,
+                birthDate.getDate(),
+                (lifePath * 2) % 9 || 9,
+                (destiny * 2) % 9 || 9
+            ];
+            
+            const resultDiv = document.getElementById('luckyResult');
+            resultDiv.innerHTML = `
+                <h3 style="text-align: center; color: #667eea; margin-bottom: 20px;">Your Personal Lucky Numbers</h3>
+                <div class="lucky-numbers-grid">
+                    ${luckyNums.map(num => `<div class="lucky-number">${num}</div>`).join('')}
+                </div>
+                <p style="margin-top: 20px; text-align: center; color: #666;">
+                    Use these numbers for important decisions, lottery picks, or special dates!
+                </p>
+            `;
+            resultDiv.classList.add('show');
         }
         
         function displayResult(elementId, number, type) {
@@ -390,6 +771,48 @@
                 </div>
             `;
             resultDiv.classList.add('show');
+        }
+        
+        function saveReading(type) {
+            if (!currentResults[type]) {
+                alert('Please calculate first before saving');
+                return;
+            }
+            
+            const readings = JSON.parse(localStorage.getItem('numerologyReadings') || '[]');
+            readings.push({
+                ...currentResults[type],
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('numerologyReadings', JSON.stringify(readings));
+            alert('Reading saved successfully!');
+        }
+        
+        function displaySavedReadings() {
+            const readings = JSON.parse(localStorage.getItem('numerologyReadings') || '[]');
+            const container = document.getElementById('savedReadings');
+            
+            if (readings.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No saved readings yet. Calculate and save your readings!</p>';
+                return;
+            }
+            
+            container.innerHTML = readings.map((reading, index) => `
+                <div class="saved-item">
+                    <div>
+                        <strong>${reading.type} Number: ${reading.number}</strong><br>
+                        <small>${reading.name || reading.date || ''} - ${new Date(reading.timestamp).toLocaleDateString()}</small>
+                    </div>
+                    <button class="delete-btn" onclick="deleteReading(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+        
+        function deleteReading(index) {
+            const readings = JSON.parse(localStorage.getItem('numerologyReadings') || '[]');
+            readings.splice(index, 1);
+            localStorage.setItem('numerologyReadings', JSON.stringify(readings));
+            displaySavedReadings();
         }
     </script>
 </body>
